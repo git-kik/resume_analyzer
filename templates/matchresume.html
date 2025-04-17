@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Multiple Resume Matcher</title>
+</head>
+
+<body>
+    <h1>Compare Multiple Resumes to a Job Description</h1>
+    {% if show_form %}
+    <form action="/matcher" method="POST" enctype="multipart/form-data">
+        <label for="resumes">Upload Resumes:</label><br>
+        <input type="file" name="resumes" id="resumes" multiple required><br><br>
+
+        <label for="job_description">Paste Job Description:</label><br>
+        <textarea name="job_description" id="job_description" rows="8" cols="60" required></textarea><br><br>
+
+        <button type="submit">Match Resumes</button>
+    </form>
+    {% endif %}
+
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if top_results %}
+    <h2>Top Matching Resumes</h2>
+    <table border="2" cellpadding="8">
+            <thead>
+                <tr>
+                    <th>Resume Name</th>
+                    <th>Similarity Score (%)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for name, score in top_results %}
+                    <tr>
+                        <td><a href="{{ url_for('static', filename='upload_resume/' + name) }}" target="_blank">{{ name }}</a></td>
+                        <td>{{ score }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+    <br>
+
+{% endif %}
+    <p>
+        <a href="/matcher">Compare Again</a>
+        <a href="/view_resumes">Go to view  all resumes</a>
+        <a href="/logout">Logout</a>
+    </p>
+</body>
+
+</html>

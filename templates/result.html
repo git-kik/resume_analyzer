@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Analysis Result</title>
+</head>
+<body>
+    <h1>Analysis Result for {{ resume_filename }}</h1>
+
+    <h3>Predicted Category: {{ category }}</h3>
+    <h3>Recommended Job Role: {{ job }}</h3>
+    <h3>Name: {{ name }}</h3>
+    <h3>Email: {{ email }}</h3>
+    <h3>Phone: {{ phone }}</h3>
+    <h3>Education: {{ education }}</h3>
+    <h3>Cosine Similarity with Job Description: {{ cosine_score }}%</h3>
+    <p><strong>Matched Skills:</strong> {{ matched_skills | join(', ') }}</p>
+
+    <h3>Matched Skills (Percentage of Job Description)</h3>
+<canvas id="skillsChart" width="600" height="300"></canvas>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const skillLabels = {{ skill_data | map(attribute='skill') | list | tojson }};
+    const skillPercentages = {{ skill_data | map(attribute='percentage') | list | tojson }};
+
+    const ctx = document.getElementById('skillsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: skillLabels,
+            datasets: [{
+                label: 'Matched Skill %',
+                data: skillPercentages,
+                backgroundColor: 'rgba(75, 192, 192, 0.7)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            indexAxis: 'y',
+            responsive: true,
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return context.parsed.x + '%';
+                        }
+                    }
+                }
+            },
+            scales: {
+                x: {
+                    beginAtZero: true,
+                    max: 100,
+                    title: {
+                        display: true,
+                        text: 'Percentage of Job Description'
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+
+    <p><strong>Missing Skills:</strong> {{ missing_skills | join(', ') }}</p>
+
+    
+
+    {# 
+        <h3>Suggested Courses</h3>
+        <ul>
+            {% for skill, link in courses.items() %}
+                <li>{{ skill }} — <a href="{{ link }}" target="_blank">Learn</a></li>
+            {% endfor %}
+        </ul> 
+        #}
+        
+
+    <br
+    <p>
+        <a href="/result">Analyze another resume</a>
+        <a href="/logout">Logout</a>
+    </p>
+</body>
+</html>

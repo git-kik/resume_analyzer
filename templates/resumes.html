@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Resumes</title>
+</head>
+<body>
+    <h1>Resumes</h1>
+    <table border="3" cellpadding="8">
+        <thead>
+            <tr>
+                <th>Resume Name</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Skills</th>
+                <th>Education</th>
+                <th>Similarity score</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for resume in resumes %}
+                <tr>
+                    <td>
+                        <a href="{{ url_for('static', filename='upload_resume/' + resume.resume_name) }}" target="_blank">
+                            {{ resume.resume_name }}
+                        </a>
+                    </td>
+                    <td>{{ resume.name }}</td>
+                    <td>{{ resume.email }}</td>
+                    <td>{{ resume.phone }}</td>
+                    <td>{{ resume.skills }}</td>
+                    <td>{{ resume.education }}</td>
+                    <td>{{ resume.similarity_score }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>
+        <a href="{{ url_for('download_resumes_csv') }}" class="btn btn-success">Download as CSV file</a>
+    </p>
+    
+
+    <p>
+        <a href="/matcher">Go to analyze other resumes</a>
+        <a href="/logout">Logout</a>
+    </p>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block title %}Login - Resume Analyzer{% endblock %}
+
+{% block content %}
+  <h1>Login to Resume Analyzer</h1>
+  <form method="POST" novalidate>
+    {{ form.hidden_tag() }}
+
+    <p>
+      {{ form.email.label }}<br>
+      {{ form.email(size=32) }}<br>
+      {% for error in form.email.errors %}
+        <span style="color: red;">{{ error }}</span><br>
+      {% endfor %}
+    </p>
+
+    <p>
+      {{ form.password.label }}<br>
+      {{ form.password(size=32) }}<br>
+      {% for error in form.password.errors %}
+        <span style="color: red;">{{ error }}</span><br>
+      {% endfor %}
+    </p>
+
+    <p>{{ form.submit() }}</p>
+  </form>
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul>
+        {% for message in messages %}
+          <li>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
+  <p>Don't have an account? <a href="{{ url_for('register') }}">Register here</a></p>
+{% endblock %}
