@@ -1,57 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends "base.html" %}
 
-<head>
-    <meta charset="UTF-8">
-    <title>Multiple Resume Matcher</title>
-</head>
-
-<body>
-    <h1>Compare Multiple Resumes to a Job Description</h1>
+{% block title %}Multiple Resume Matcher{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/multipleres.css') }}">
+<div class="form-wrapper">
+  <div class="form-box shadow">
     {% if show_form %}
+    <h2 class="text-center mb-4">Compare Multiple Resumes to a Job Description</h2>
     <form action="/matcher" method="POST" enctype="multipart/form-data">
-        <label for="resumes">Upload Resumes:</label><br>
-        <input type="file" name="resumes" id="resumes" multiple required><br><br>
+      <div class="mb-3">
+        <label for="resumes" class="form-label">Upload Resumes:</label>
+        <input type="file" name="resumes" id="resumes" class="form-control" multiple required>
+      </div>
 
-        <label for="job_description">Paste Job Description:</label><br>
-        <textarea name="job_description" id="job_description" rows="8" cols="60" required></textarea><br><br>
+      <div class="mb-3">
+        <label for="job_description" class="form-label">Paste Job Description:</label>
+        <textarea name="job_description" id="job_description" rows="6" class="form-control" required></textarea>
+      </div>
 
-        <button type="submit">Match Resumes</button>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-analyze">Match Resumes</button>
+      </div>
     </form>
     {% endif %}
-
 
     {% if error %}
     <p style="color: red;">{{ error }}</p>
     {% endif %}
 
     {% if top_results %}
-    <h2>Top Matching Resumes</h2>
-    <table border="2" cellpadding="8">
-            <thead>
-                <tr>
-                    <th>Resume Name</th>
-                    <th>Similarity Score (%)</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for name, score in top_results %}
-                    <tr>
-                        <td><a href="{{ url_for('static', filename='upload_resume/' + name) }}" target="_blank">{{ name }}</a></td>
-                        <td>{{ score }}</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-        
-    <br>
+    <h3 class="mt-4">Top Matching Resumes</h3>
+    <div class="table-container">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Resume Name</th>
+            <th>Similarity Score (%)</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for name, score in top_results %}
+          <tr>
+            <td><a href="{{ url_for('static', filename='upload_resume/' + name) }}" target="_blank">{{ name }}</a></td>
+            <td>{{ score }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% endif %}
 
-{% endif %}
-    <p>
-        <a href="/matcher">Compare Again</a>
-        <a href="/view_resumes">Go to view  all resumes</a>
-        <a href="/logout">Logout</a>
-    </p>
-</body>
-
-</html>
+    <div class="action-links mt-4 text-center">
+      <a href="/matcher" class="btn btn-secondary">Compare Again</a>
+      <a href="/view_resumes" class="btn btn-secondary">View All Resumes</a>
+      <a href="/logout" class="btn btn-logout">Logout</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

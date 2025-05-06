@@ -21,7 +21,7 @@ class RegistrationForm(FlaskForm):
         DataRequired(message="Please confirm your password."),
         EqualTo('password', message="Passwords must match.")
     ])
-    role = SelectField('Role', choices=[('hr', 'HR'), ('employee', 'Employee')], validators=[
+    role = SelectField('Role', choices=[('hr', 'HR'), ('jobseeker', 'Jobseeker'),('admin','Admin')], validators=[
         DataRequired(message="Role selection is required.")
     ])
     submit = SubmitField('Register')

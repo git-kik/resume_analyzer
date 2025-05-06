@@ -1,0 +1,105 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+/* Full screen flex layout */
+.split-layout {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+}
+
+/* Left side with background color */
+.left-side {
+    flex: 1;
+    background-color: #4eb97b; 
+}
+
+/* Right side with content */
+.right-side {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.welcome-content {
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 50px;
+}
+
+/* Common button styling */
+.button-group a {
+    min-width: 150px;
+    border-radius: 50px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: white;
+    border: 2px solid #0a0a0a;
+}
+
+/* General User Button */
+.button-group a.btn-success {
+    background-color: #e7a440;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button-group a.btn-success:hover {
+    background-color: #7a8ad3e8; /* Slightly darker green */
+    border-color: #0d0e0d;
+}
+
+.button-group a.btn-outline-dark {
+    background-color: #d14154;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.button-group a.btn-outline-dark:hover {
+    background-color: #7a8ad3e8; /* Slightly darker green */
+    border-color: #0d0e0d;
+}
+
+
+
+
+@media (max-width: 768px) {
+    .welcome-content {
+        margin-top: 30px;
+        padding: 1rem;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .button-group a {
+        width: 100%;
+    }
+}
+
+
+/* Responsive stacking for smaller screens */
+@media (max-width: 768px) {
+    .split-layout {
+        flex-direction: row;
+    }
+
+    .left-side {
+        height: 40vh;
+        flex: none;
+    }
+
+    .right-side {
+        height: 60vh;
+        flex: none;
+    }
+}

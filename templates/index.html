@@ -3,8 +3,17 @@
 {% block title %}Welcome - Resume Analyzer{% endblock %}
 
 {% block content %}
-  <h1>Welcome to Resume Analyzer</h1>
-  <p>Please select your user type:</p>
-  <a href="{{ url_for('register') }}">General User</a>
-  <a href="{{ url_for('login') }}">Admin</a>
+<div class="split-layout">
+    <div class="left-side"></div>
+    <div class="right-side">
+        <div class="welcome-content text-center">
+            <h1 class="mb-4">Welcome to smartRecurit</h1>
+            <p class="mb-4">Please select your user type:</p>
+            <div class="button-group d-grid gap-3 d-sm-flex justify-content-center">
+                <a href="{{ url_for('register') }}" class="btn btn-success btn-lg px-5">General User</a>
+                <a href="{{ url_for('login') }}" class="btn btn-outline-dark btn-lg px-5">Admin</a>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

@@ -2,35 +2,85 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>HR Dashboard</title>
-    <!-- Include Bootstrap CSS -->
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            background-color: #8ef09b;
+        }
+
+        .modal-content {
+            border-radius: 15px;
+            background-color: #ffffff;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .modal-title {
+            font-weight: bold;
+        }
+
+        .modal-body a.btn {
+            border-radius: 30px;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color:#d1be51 ;
+            color: black;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #ee4628;
+            color: white;
+            transform: scale(1.03);
+        }
+
+        .btn-secondary {
+            background-color: #007bff;
+            border: none;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5f168a;
+            transform: scale(1.03);
+        }
+    </style>
 </head>
 <body>
-    <!-- Modal -->
-    <div class="modal fade" id="hrModal" tabindex="-1" role="dialog" aria-labelledby="hrModalLabel" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="hrModalLabel">Welcome, HR</h5>
-          </div>
-          <div class="modal-body">
-            <p>Please choose an action:</p>
-            <a href="{{ url_for('matcher') }}" class="btn btn-primary btn-block">Analyze Multiple Resumes</a>
-            <a href="{{ url_for('view_resumes') }}" class="btn btn-secondary btn-block">View All Resumes Data</a>
-          </div>
-        </div>
+
+<!-- Modal -->
+<div class="modal fade" id="roleModal" tabindex="-1" role="dialog" aria-labelledby="roleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content text-center p-3">
+      <div class="modal-header border-0">
+        <h5 class="modal-title w-100" id="roleModalLabel">Welcome, {{ user_role|capitalize }}</h5>
+      </div>
+      <div class="modal-body">
+        <p>Please choose an action:</p>
+        {% if user_role == 'admin' %}
+          <a href="{{ url_for('user_admin.index_view') }}" class="btn btn-primary btn-block mb-2">Manage all users</a>
+        {% elif user_role == 'hr' %}
+          <a href="{{ url_for('matcher') }}" class="btn btn-primary btn-block mb-2">Analyze Multiple Resumes</a>
+        {% endif %}
+        <a href="{{ url_for('view_resumes') }}" class="btn btn-secondary btn-block">View All Resumes Data</a>
       </div>
     </div>
+  </div>
+</div>
 
-    <!-- Include jQuery and Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Scripts -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $('#roleModal').modal('show');
+    });
+</script>
 
-    <script>
-        $(document).ready(function(){
-            $('#hrModal').modal('show');
-        });
-    </script>
 </body>
 </html>

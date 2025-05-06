@@ -1,0 +1,84 @@
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+.table-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-weight: bold;
+    font-size: 28px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px; /* Reduced font size */
+    min-width: 1000px; /* Helps stretch on wider screens */
+}
+
+thead {
+    background-color: #0dfd79;
+    color: black;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+th, td {
+    padding: 10px 12px;
+    text-align: center;
+    border-bottom: 1px solid #ccc;
+    white-space: nowrap;
+}
+
+tr:hover {
+    background-color: #f1f1f1;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-weight: 600;
+    transition: 0.3s ease;
+    margin: 10px;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-success {
+    background-color: #0dfd79;
+    color: black;
+    border: none;
+}
+
+.btn-success:hover {
+    background-color: #0bc56d;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background-color: #0056b3;
+}
+
+.button-group {
+    text-align: center;
+    margin-top: 20px;
+}

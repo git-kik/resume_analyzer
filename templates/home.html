@@ -1,21 +1,30 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resume Analyzer - Single</title>
-</head>
-<body>
-    <h1>Single Resume Analysis</h1>
+{% extends "base.html" %}
+
+{% block title %}
+smartRecurit - Single {% endblock %}
+{% block content %}
+<div class="form-wrapper">
+  <div class="form-box shadow">
+    <h2 class="text-center mb-4">Single Resume Analysis</h2>
     <form action="/result" method="POST" enctype="multipart/form-data">
-        <label for="resume">Upload Resume:</label><br>
-        <input type="file" name="resume" id="resume" required><br><br>
+      <div class="mb-3">
+        <label for="resume" class="form-label">Upload Resume:</label>
+        <input type="file" name="resume" id="resume" class="form-control" required>
+      </div>
 
-        <label for="job_description">Paste Job Description:</label><br>
-        <textarea name="job_description" id="job_description" rows="8" cols="60" required></textarea><br><br>
+      <div class="mb-3">
+        <label for="job_description" class="form-label">Paste Job Description:</label>
+        <textarea name="job_description" id="job_description" rows="6" class="form-control" required></textarea>
+      </div>
 
-        <button type="submit">Analyze Resume</button>
+      <div class="d-grid">
+        <button type="submit" class="btn btn-analyze">Analyze Resume</button>
+      </div>
     </form>
 
-    <p><a href="/logout">Logout</a></p>
-</body>
-</html>
+    <div class="text-center mt-4">
+      <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

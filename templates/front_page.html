@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>smartRecruit - AI-Powered Resume Screener</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/front_page.css') }}">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="navbar-logo">smartRecruit</div>
+        <div class="hamburger-menu">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+        </div>
+        <div class="navbar-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <div class="auth-buttons">
+                <a href="{{ url_for('login') }}" class="btn ">Log In</a>
+                <a href="{{ url_for('register') }}" class="btn btn-secondary">Sign Up</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <h1 class="hero-title">Your AI Career Companion</h1>
+            <p class="hero-subtitle">Elevate your resume, ace your interviews, and unlock your dream career with
+                AI-powered insights and personalized guidance.</p>
+            <div class="hero-buttons">
+                <a href="{{ url_for('register') }}" class="btn btn-primary">Get Started</a>
+                <a href="#features" class="btn btn-secondary">Learn More</a>
+            </div>
+        </div>
+        <div class="hero-image">
+            <img src="{{ url_for('static', filename='image/infographic-resume-.png' ) }}"
+                alt="Resume Screening Dashboard">
+        </div>
+    </section>
+    <section class="features" id="features">
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">📄</div>
+                <h3>Resume Analysis</h3>
+                <p>Get instant, insights to optimize your resume and stand out to employers.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><img src="https://img.icons8.com/?size=100&id=118344&format=png&color=000000"
+                        alt="Resume Icon" width="50" height="50"> </div>
+                <h3>Skills Recommendation</h3>
+                <p>Learn from industrial level courses tailored to enhance your skills and experience.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Career Matching</h3>
+                <p>Discover job opportunities that perfectly align with your skills and career goals.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="about" id="about">
+        <div class="about-content">
+            <h2 class="about-title">About smartRecruit</h2>
+            <p class="about-description">
+                We're on a mission to revolutionize career development through AI-powered insights. Our platform
+                combines cutting-edge technology with human-centric design to help professionals unlock their full
+                potential.
+            </p>
+            <div class="about-values">
+                <div class="about-value">
+                    <div class="value-icon">🚀</div>
+                    <span>Innovation-Driven</span>
+                </div>
+                <div class="about-value">
+                    <div class="value-icon">🤝</div>
+                    <span>User-Centric</span>
+                </div>
+                <div class="about-value">
+                    <div class="value-icon">🌐</div>
+                    <span>Global Perspective</span>
+                </div>
+                <div class="about-value">
+                    <div class="value-icon">💡</div>
+                    <span>Continuous Learning</span>
+                </div>
+            </div>
+        </div>
+        <div class="about-image">
+            <img src="{{ url_for('static', filename='image/resume_analyze.jpeg') }}" alt="ResumeScreening Team">
+        </div>
+    </section>
+    <section class="contact" id="contact">
+        <div class="contact-container">
+            <div class="contact-info">
+                <h2 class="contact-title">Get in Touch</h2>
+                <p class="contact-details">
+                    Have questions or need support? We're here to help you navigate your career journey.
+                </p>
+                <div class="contact-detail">
+                    <div class="contact-icon">📍</div>
+                    <span>Kanchanbari, Biratnagar, Morang</span>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">✉️</div>
+                    <span>support@resumescreening.ai</span>
+                </div>
+                <div class="contact-detail">
+                    <div class="contact-icon">📞</div>
+                    <span>+977 9801234567</span>
+                </div>
+    </section>
+</body>
+
+</html>

@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resumes</title>
-</head>
-<body>
-    <h1>Resumes</h1>
-    <table border="3" cellpadding="8">
+{% extends "base.html" %}
+
+{% block title %}Resumes Matching{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/view_resumes.css') }}">
+
+<div class="table-container">
+    <h1>Resumes records</h1>
+    <table>
         <thead>
             <tr>
                 <th>Resume Name</th>
@@ -15,7 +16,7 @@
                 <th>Phone</th>
                 <th>Skills</th>
                 <th>Education</th>
-                <th>Similarity score</th>
+                <th>Similarity Score</th>
             </tr>
         </thead>
         <tbody>
@@ -37,14 +38,12 @@
         </tbody>
     </table>
 
-    <p>
-        <a href="{{ url_for('download_resumes_csv') }}" class="btn btn-success">Download as CSV file</a>
-    </p>
-    
-
-    <p>
-        <a href="/matcher">Go to analyze other resumes</a>
-        <a href="/logout">Logout</a>
-    </p>
-</body>
-</html>
+    <div class="button-group">
+        <a href="{{ url_for('download_resumes_csv') }}" class="btn btn-success">Download as CSV</a>
+        {% if user_role == 'hr' %}
+            <a href="{{ url_for('matcher') }}" class="btn btn-secondary">Analyze More Resumes</a>
+        {% endif %}
+        <a href="{{ url_for('logout') }}" class="btn btn-secondary">Logout</a>
+    </div>
+</div>
+{% endblock %}
