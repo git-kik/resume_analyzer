@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>{{ name }} - Portfolio</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/multipleres.css') }}">
+<style>
+  body, html {
+    margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #ffffff; color: #222;
+    height: 100vh;
+  }
+  .sidebar {
+    position: fixed;
+    width: 260px;
+    height: 100%;
+    background: #283593;
+    color: white;
+    padding: 2rem 1.5rem;
+    box-sizing: border-box;
+  }
+  .sidebar img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    display: block;
+    margin: 0 auto 1rem;
+  }
+  .sidebar h1 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin: 0 0 0.3rem;
+  }
+  .sidebar p {
+    text-align: center;
+    font-weight: 500;
+    font-size: 1.1rem;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+    opacity: 0.8;
+  }
+  .sidebar section {
+    margin-bottom: 2rem;
+  }
+  .sidebar h2 {
+    border-bottom: 2px solid #5c6bc0;
+    padding-bottom: 0.3rem;
+    margin-bottom: 1rem;
+    font-weight: 600;
+  }
+  main {
+    margin-left: 260px;
+    padding: 3rem 2rem;
+  }
+  h2 {
+    font-weight: 700;
+    margin-top: 0;
+  }
+  ul.skills {
+    list-style: none;
+    padding-left: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+  ul.skills li {
+    background: #5c6bc0;
+    color: white;
+    padding: 0.3rem 0.8rem;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 0.3rem;
+  }
+  td {
+    padding: 0.4rem 0.6rem;
+    vertical-align: top;
+    border-bottom: 1px solid #ccc;
+  }
+  footer {
+    text-align: center;
+    padding: 1rem 0;
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 3rem;
+  }
+  .action-links{
+  display: flex;
+  justify-content: center;
+  padding: 120px 20px;
+}
+  a.contact-link {
+    color: #283593;
+    text-decoration: none;
+  }
+  a.contact-link:hover {
+    text-decoration: underline;
+  }
+  @media (max-width: 768px) {
+    .sidebar {
+      position: relative;
+      width: 100%;
+      height: auto;
+      padding: 1.5rem 1rem;
+    }
+    main {
+      margin-left: 0;
+      padding: 2rem 1rem;
+    }
+  }
+</style>
+</head>
+<body>
+  <aside class="sidebar">
+    {% if user_image_url %}
+    <img src="{{ user_image_url }}" alt="Profile Picture" class="profile-pic" />
+    {% endif %}
+    <h1>{{ name }}</h1>
+    <p>{{ email }}</p>
+    <p>{{ phone }}</p>
+
+    <section>
+      <h2>Skills</h2>
+      <ul class="skills">
+        {% for skill in skills %}
+          <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+  </aside>
+
+  <main>
+    <section>
+      <h2>Education</h2>
+      <table>
+        <tbody>
+          {% for edu in education %}
+            <tr><td><strong>{{ edu.degree }}</strong></td><td>{{ edu.institution }}</td><td>{{ edu.year }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+      <table>
+        <tbody>
+          {% for exp in experience %}
+            <tr><td><strong>{{ exp.role }}</strong></td><td>{{ exp.company }}</td><td>{{ exp.duration }}</td></tr>
+            <tr><td colspan="3">{{ exp.description }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+     <section>
+      <h2>Projects</h2>
+      <ul>
+        {% for proj in projects %}
+          <li>{{ proj | replace('\n', '<br>') | safe }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section>
+<div class="action-links mt-4 text-center">
+  <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+</div>
+</section>
+
+    <footer>
+      &copy; {{ current_year }} {{ name }}. All rights reserved.
+    </footer>
+  </main>
+</body>
+</html>

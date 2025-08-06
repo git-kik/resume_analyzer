@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ name }} - Portfolio</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/multipleres.css') }}">
+  <style>
+    body {
+      margin:0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #121212; color: #e0e0e0;
+      line-height: 1.6;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 2rem;
+    }
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    header img {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      border: 3px solid #bb86fc;
+      object-fit: cover;
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 0.3rem;
+      color: #bb86fc;
+    }
+    p.title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #cf6679;
+      margin-top: 0;
+    }
+    section {
+      margin-bottom: 2rem;
+    }
+    h2 {
+      border-left: 5px solid #bb86fc;
+      padding-left: 10px;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: #bb86fc;
+    }
+    ul.skills {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    ul.skills li {
+      background: #3700b3;
+      padding: 0.5rem 1.2rem;
+      border-radius: 25px;
+      font-weight: 600;
+      color: #e0e0e0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 0.5rem;
+      vertical-align: top;
+      border-bottom: 1px solid #333;
+    }
+    footer {
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 0.9rem;
+      color: #666;
+    }
+    .action-links{
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+}
+    a.contact-link {
+      color: #bb86fc;
+      text-decoration: none;
+    }
+    a.contact-link:hover {
+      text-decoration: underline;
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2rem;
+      }
+      header img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      {% if user_image_url %}
+      <img src="{{ user_image_url }}" alt="Profile Picture" />
+      {% endif %}
+      <h1>{{ name }}</h1>
+      <p>{{ email }}</p>
+      <p>{{ phone }}</p>
+    </header>
+
+    <section>
+      <h2>Skills</h2>
+      <ul class="skills">
+        {% for skill in skills %}
+          <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section>
+      <h2>Education</h2>
+      <table>
+        <tbody>
+          {% for edu in education %}
+            <tr><td><strong>{{ edu.degree }}</strong></td><td>{{ edu.institution }}</td><td>{{ edu.year }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Experience</h2>
+      <table>
+        <tbody>
+          {% for exp in experience %}
+            <tr><td><strong>{{ exp.role }}</strong></td><td>{{ exp.company }}</td><td>{{ exp.duration }}</td></tr>
+            <tr><td colspan="3">{{ exp.description }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+
+    <section>
+      <h2>Projects</h2>
+      <ul>
+        {% for proj in projects %}
+          <li>{{ proj | replace('\n', '<br>') | safe }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section>
+<div class="action-links mt-4 text-center">
+  <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+</div>
+</section>
+
+    <footer>
+      &copy; {{ current_year }} {{ name }}. All rights reserved.
+    </footer>
+    
+  </div>
+</body>
+</html>

@@ -5,6 +5,10 @@ import re
 import pytesseract
 from PIL import Image
 import pdfplumber
+import spacy
+
+
+nlp = spacy.load("en_core_web_sm")
 
 
 def pdf_to_text(file):
@@ -37,6 +41,7 @@ def extract_email_from_resume(text):
         email = match.group()
 
     return email
+
 
 def extract_name_from_resume(text):
     name = None
@@ -154,10 +159,34 @@ def extract_skills(text):
 
     return skills
 
+def extract_projects(text):
+    projects = []
+    project_blocks = re.findall(r'(Projects?|PROJECTS?)[:\-]?\s*(.*?)(?=(\n[A-Z][^\n]{2,}|$))', text, re.DOTALL)
+    for block in project_blocks:
+        content = block[1].strip()
+        if content:
+            projects.append(content)
+    return projects
+
+
+def extract_experience(text):
+    experience = []
+    experience_blocks = re.findall(r'(Experience|EXPERIENCE|Work Experience)[:\-]?\s*(.*?)(?=(\n[A-Z][^\n]{2,}|$))', text, re.DOTALL)
+    for block in experience_blocks:
+        lines = block[1].strip().split('\n')
+        if len(lines) >= 2:
+            experience.append({
+                'role': lines[0],
+                'company': lines[1] if len(lines) > 1 else '',
+                'duration': '',  # Optional, parse if date patterns exist
+                'description': '\n'.join(lines[2:]).strip()
+            })
+    return experience
+
 
 def extract_text_from_pdf(file_path):
+    text = ""
     with pdfplumber.open(file_path) as pdf:
-        text = ""
         for page in pdf.pages:
             text += page.extract_text()
     return text
@@ -174,13 +203,18 @@ def ocr_from_image(file_path):
     return pytesseract.image_to_string(image)
 
 def extract_text(file_path):
-    if file_path.endswith('.pdf'):
-        return extract_text_from_pdf(file_path)
-    elif file_path.endswith('.docx'):
-        return extract_text_from_docx(file_path)
-    elif file_path.endswith('.txt'):
-        return extract_text_from_txt(file_path)
-    elif file_path.lower().endswith(('.png', '.jpg', '.jpeg')):
-        return ocr_from_image(file_path)
-    else:
+    try:
+        if file_path.endswith('.pdf'):
+            return extract_text_from_pdf(file_path)
+        elif file_path.endswith('.docx'):
+            return extract_text_from_docx(file_path)
+        elif file_path.endswith('.txt'):
+            return extract_text_from_txt(file_path)
+        elif file_path.lower().endswith(('.png', '.jpg', '.jpeg')):
+            return ocr_from_image(file_path)
+        else:
+            raise ValueError("Unsupported file type. Please upload PDF, DOCX, TXT, or image files.")
+    except Exception as e:
+        print(f"[ERROR] Failed to extract text from {file_path}: {e}")
         return ""
+

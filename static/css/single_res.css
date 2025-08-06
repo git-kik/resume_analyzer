@@ -82,4 +82,19 @@
   .btn-logout:hover {
     background-color: #c82333;
   }
+
+  .btn-success {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+
   

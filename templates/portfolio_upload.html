@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Resume to Portfolio Website{% endblock %}
+
+{% block content %}
+<div class="form-wrapper">
+  <div class="form-box">
+    <h2 class="text-center mb-4">Create Your Portfolio Website</h2>
+    <form method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="resume">Upload Resume (PDF or DOCX):</label>
+        <input type="file" id="resume" name="resume" accept=".pdf,.docx" required class="form-control">
+      </div>
+
+      <div class="mb-3">
+        <label for="profile_image">Upload Profile Image (Optional):</label>
+        <input type="file" id="profile_image" name="profile_image" accept="image/*" class="form-control">
+      </div>
+
+      <div class="mb-4">
+        <label for="template">Choose Portfolio Template:</label>
+        <select id="template" name="template" required class="form-control">
+          <option value="modern_minimalist">Minimalist</option>
+          <option value="dark_theme">Dark Theme</option>
+          <option value="sidebar_layout">Sidebar Layout</option>
+          <option value="colorful_layout">Colorful</option>
+          <option value="ai_generated">AI-Generated</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-analyze w-100">Generate Portfolio</button>
+      
+      <div class="action-links mt-4 text-center">
+            <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
+        </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

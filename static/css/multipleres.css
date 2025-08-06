@@ -18,6 +18,13 @@
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
 
+.form-box.enlarged {  
+  max-width: 700px;
+  height: 100%;
+  width: 100%;
+}
+
+
 /* Buttons */
 .btn {
     display: inline-block;
@@ -69,27 +76,7 @@
     margin-top: 1rem;
 }
 
-/* .styled-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
 
-.styled-table th,
-.styled-table td {
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    text-align: left;
-}
-
-.styled-table th {
-    background-color: #f4f4f4;
-    color: #333;
-}
-
-.styled-table tr:nth-child(even) {
-    background-color: #f9f9f9;
-} */
 
 .table-container {
     margin-top: 20px;

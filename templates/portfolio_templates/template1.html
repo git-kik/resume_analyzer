@@ -1,0 +1,28 @@
+<!-- templates/portfolio_templates/template1.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ name }} - Portfolio</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        /* Example styles */
+    </style>
+</head>
+<body>
+    <header>
+        <h1>{{ name }}</h1>
+        <p>{{ title }}</p>
+    </header>
+
+    <section>
+        <h2>Skills</h2>
+        <ul>
+            {% for skill in skills %}
+            <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+
+    <!-- Add other sections like education, experience, etc. -->
+</body>
+</html>

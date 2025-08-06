@@ -22,9 +22,23 @@ from flask_admin import helpers as admin_helpers
 from flask_admin.menu import MenuLink
 from get_text import *
 import requests
+from flask import send_file,jsonify
+import zipfile
+import tempfile
+from datetime import datetime
+from openai_func import *
+from fpdf import FPDF
+import openai
+import io
 
+from rag_chat import load_and_embed_pdfs,get_chat_chain
+
+chat_chain = None  # Global for now
+chat_history = []
 
 load_dotenv()
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
@@ -85,7 +99,7 @@ def cleanResume(txt):
     cleanText = re.sub(r'RT|cc', ' ', cleanText)
     cleanText = re.sub(r'#\S+\s', ' ', cleanText)
     cleanText = re.sub(r'@\S+', ' ', cleanText)
-    cleanText = re.sub(r'[%s]' % re.escape("""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"""), ' ', cleanText)
+    cleanText = re.sub(r'[{}]'.format(re.escape("""!"#$%&'()*+,-./:;<=>?@[\]^_`{|}~""")), ' ', cleanText)
     cleanText = re.sub(r'[^\x00-\x7f]', ' ', cleanText)
     cleanText = re.sub(r'\s+', ' ', cleanText)
     return cleanText
@@ -107,7 +121,12 @@ def job_recommendation(resume_text):
     return recommended_job
 
 
+app.config['UPLOAD_FOLDER_RESUMES'] = os.path.join('static', 'upload_resume')
+app.config['UPLOAD_FOLDER_IMAGES'] = os.path.join('static', 'image')
 
+
+os.makedirs(app.config['UPLOAD_FOLDER_RESUMES'], exist_ok=True)
+os.makedirs(app.config['UPLOAD_FOLDER_IMAGES'], exist_ok=True)
 os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 
@@ -118,7 +137,6 @@ def index():
 @app.route('/home')
 def home():
     return render_template('home.html')
-
 
 
 
@@ -142,7 +160,7 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and user.check_password(form.password.data):
             login_user(user)
-            return redirect(url_for('home') if user.role == 'jobseeker' else url_for('dashboard'))
+            return redirect(url_for('dashboard'))
         else:
             flash('Invalid email or password.')
     return render_template('login.html', form=form)
@@ -154,13 +172,93 @@ def dashboard():
     user_role = current_user.role 
     return render_template('dashboard.html', user_role=user_role)
 
-
-
 @app.route('/logout')
 @login_required
 def logout():
     logout_user()
     return redirect(url_for('login'))
+
+@app.route('/portfolio_upload', methods=['GET', 'POST'])
+@login_required
+def portfolio_upload():
+    if request.method == 'POST':
+        resume = request.files['resume']
+        profile_image = request.files.get('profile_image')
+        selected_template = request.form['template']
+
+        # Save resume and extract text
+        resume_path = os.path.join(app.config['UPLOAD_FOLDER_RESUMES'], resume.filename)
+        resume.save(resume_path)
+        text = extract_text(resume_path)
+
+        # Extract info from resume
+        name = extract_name_from_resume(text)
+        email = extract_email_from_resume(text)
+        phone = extract_contact_number_from_resume(text)
+        education_list = extract_education_from_resume(text)
+        skills_list = extract_skills(text)
+        projects_list = extract_projects(text)
+        experience_list = extract_experience(text)
+        education_data = [{'degree': edu, 'institution': '', 'year': ''} for edu in education_list]
+
+        # Save profile image if provided
+        user_image_url = None
+        if profile_image and profile_image.filename:
+            filename = secure_filename(profile_image.filename)
+            profile_image_path = os.path.join(app.config['UPLOAD_FOLDER_IMAGES'], filename)
+            profile_image.save(profile_image_path)
+            user_image_url = url_for('static', filename=f'image/{filename}')
+
+        # Handle AI-generated template
+        if selected_template == 'ai_generated':
+            try:
+                html_code = generate_portfolio_html_with_ai(
+                    name or "Anonymous",
+                    email or "",
+                    user_image_url,
+                    phone or "",
+                    skills_list,
+                    education_list,
+                    experience_list,
+                    projects_list
+                )
+
+                # Save HTML to static dir for download
+                os.makedirs("static/generated_portfolios", exist_ok=True)
+                temp_file = tempfile.NamedTemporaryFile(delete=False, suffix=".html", dir="static/generated_portfolios")
+                with open(temp_file.name, 'w', encoding='utf-8') as f:
+                    f.write(html_code)
+
+                filename = os.path.basename(temp_file.name)
+                download_link = url_for('static', filename=f'generated_portfolios/{filename}')
+
+                return render_template(
+                    'ai_portfolio_preview.html',
+                    html_code=html_code,
+                    download_link=download_link,
+                    logout_url=url_for('logout')
+                )
+
+            except Exception as e:
+                return f"Error generating portfolio with AI: {str(e)}", 500
+
+        # Fallback: Predefined HTML templates
+        template = f"portfolio_templates/{selected_template}.html"
+        return render_template(template,
+            name=name or 'Anonymous',
+            email=email or '',
+            phone=phone or '',
+            skills=skills_list,
+            education=education_data,
+            experience=experience_list,
+            projects=projects_list,
+            user_image_url=user_image_url,
+            current_year=datetime.now().year,
+            title="My Portfolio"
+        )
+
+    return render_template('portfolio_upload.html')
+
 
 
 
@@ -182,15 +280,6 @@ def recommend_courses_for_skills(missing_skills, catalog_data):
 
     # Check for courses matching missing skills
     for skill in missing_skills:
-        # for course in courses:
-        #     title = course.get('title', '').lower()
-        #     if skill.lower() in title:
-        #         recommended_items.append({
-        #             'name': course.get('title', 'No Title'),
-        #             'url': course.get('url', '#')
-        #         })
-        #         break  
-
         # Check for certifications matching missing skills
         for certification in certifications:
             title = certification.get('title', '').lower()
@@ -271,17 +360,59 @@ def result():
                            email=extracted_email,
                            phone=extracted_phone,
                            matched_skills=matched,
+                           job_skills=job_skills,
                            missing_skills=missing,
                            cosine_score=cosine_score,
                            resume_filename=filename,
                            skill_data=skill_data,
                            recommended_courses = recommended_courses)
 
-        
+
+@app.route('/generate_interview_pdf', methods=['POST'])
+def generate_interview_pdf():
+    data = request.form
+    skills = data.getlist('skills')
+    username = data.get('username', 'User')
+
+    if not skills:
+        return "No skills provided", 400
+
+    questions_text = generate_questions_from_openai(skills)
+    if questions_text is None:
+        return "Failed to generate questions using OpenAI API.", 500
+
+    return render_template('interview_preview.html',
+                           username=username,
+                           questions_text=questions_text,
+                           skills=skills)
+
+@app.route('/download_interview_pdf', methods=['POST'])
+def download_interview_pdf():
+    questions_text = request.form.get('questions_text')
+    username = request.form.get('username', 'User')
+
+    html_content = f"""
+    <html>
+    <head><title>Interview Questions for {username}</title></head>
+    <body>
+        <h1>Interview Questions for {username}</h1>
+        <pre style="font-family: monospace; white-space: pre-wrap;">{questions_text}</pre>
+    </body>
+    </html>
+    """
+
+    with tempfile.NamedTemporaryFile(suffix=".pdf", delete=True) as tmp_file:
+        HTML(string=html_content).write_pdf(tmp_file.name)
+        tmp_file.seek(0)
+        return send_file(tmp_file.name, as_attachment=True,
+                         download_name=f"{username}_interview_questions.pdf",
+                         mimetype='application/pdf')
+
+      
 @app.route('/view_resumes')
 @login_required
 def view_resumes():
-    if current_user.role == 'hr' or 'admin':
+    if current_user.role in ['hr','admin']:
         resumes = Resume.query.all()
         return render_template('resumes.html', resumes=resumes,user_role=current_user.role)
     else:
@@ -327,6 +458,69 @@ def download_resumes_csv():
             'Content-Disposition': 'attachment; filename=resumes.csv'
         }
     )
+
+@app.route('/chatbot')
+@login_required
+def chatbot():
+    return render_template('chatbot.html')
+
+@app.route('/upload_pdfs_for_chat', methods=['POST'])
+@login_required
+def upload_pdfs_for_chat():
+    global chat_chain, chat_history
+    files = request.files.getlist('pdfs')
+    job_description = request.form.get('job_description', '')
+
+    if len(files) != 2:
+        return jsonify({"error": "Please upload exactly two PDF resumes."})
+
+    try:
+        # Save resumes and collect paths
+        paths = []
+        for f in files:
+            filename = secure_filename(f.filename)
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            f.save(filepath)
+            paths.append(filepath)
+
+        # Save job description to a temp file
+        job_desc_path = os.path.join(app.config['UPLOAD_FOLDER'], "job_description.txt")
+        with open(job_desc_path, 'w') as f:
+            f.write(job_description)
+
+        # Now load everything into the vectorstore
+        vector_db = load_and_embed_pdfs(paths + [job_desc_path])  # 👈 pass all documents
+
+        # Initialize chat
+        chat_chain = get_chat_chain(vector_db)
+        chat_history = []
+
+        return jsonify({"message": "PDFs and job description uploaded. RAG system initialized."})
+    except Exception as e:
+        print("Error in upload_pdfs_for_chat:", e)
+        return jsonify({"error": "Failed to process PDFs and job description."})
+
+
+
+
+@app.route('/rag_chat', methods=['POST'])
+@login_required
+def rag_chat():
+    global chat_chain, chat_history
+    data = request.get_json()
+    question = data.get("question")
+
+    if not chat_chain:
+        return jsonify({"error": "RAG system not initialized with PDFs and job description."})
+
+    try:
+        result = chat_chain({"question": question, "chat_history": chat_history})
+        answer = result["answer"]
+        chat_history.append((question, answer))  # 👈 Maintains memory
+        return jsonify({"answer": answer})
+    except Exception as e:
+        print("RAG chat error:", e)
+        return jsonify({"error": "Failed to generate answer from RAG system."})
 
 
 

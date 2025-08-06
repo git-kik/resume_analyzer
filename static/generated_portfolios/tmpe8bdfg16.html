@@ -1,0 +1,100 @@
+Below is the code for a clean, responsive personal portfolio website in a single HTML file with embedded CSS:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Engineering Mathematics - Portfolio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+            border-radius: 50%;
+        }
+
+        .skills,
+        .education,
+        .experience,
+        .projects {
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Engineering Mathematics</h1>
+        <img src="/static/uploads/profile.png" alt="Profile Picture" width="150">
+        
+        <div class="skills">
+            <h2>Skills</h2>
+            <ul>
+                <li>Python, Machine Learning, Deep Learning</li>
+                <li>Matplotlib, Seaborn, Plotly, Pandas, Numpy, Scikit-learn</li>
+                <li>Natural Language Processing, Computer Vision</li>
+                <li>Logistic Regression, K-Means Clustering, SEM</li>
+                <li>Pyspark, Airflow</li>
+            </ul>
+        </div>
+
+        <div class="education">
+            <h2>Education</h2>
+            <ul>
+                <li>Computer Science, Management, Data Science</li>
+                <li>C, Engineering Mathematics, Data Structures & Algorithms</li>
+                <li>Database Management System, Algorithm Analysis & Design</li>
+                <li>Operating System, Computer Graphics</li>
+            </ul>
+        </div>
+
+        <div class="experience">
+            <h2>Experience</h2>
+            <p>No experience listed</p>
+        </div>
+
+        <div class="projects">
+            <h2>Projects</h2>
+            <ul>
+                <li>Vaccine Management System (3rd sem)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+
+</html>
+```
+
+Please replace `/static/uploads/profile.png` with the actual URL of your profile picture. This code provides a simple and clean layout for a personal portfolio website with sections for skills, education, experience, and projects. It is designed to be responsive and follows best UI/UX practices.

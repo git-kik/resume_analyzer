@@ -47,13 +47,6 @@
             </table>
         </div>
 
-
-        <!-- <h4 class="mt-4">Matched Skills Chart</h4>
-    <div class="chart-container mb-4">
-      <canvas id="skillsChart"></canvas>
-    </div> -->
-
-
         {% if recommended_courses %}
         <div class="mt-4">
             <h4>Recommended Courses for Missing Skills</h4>
@@ -71,6 +64,18 @@
         <p>No course recommendations available for the missing skills.</p>
         {% endif %}
 
+        <hr class="mt-4">
+        
+        <form action="{{ url_for('generate_interview_pdf') }}" method="POST">
+    <input type="hidden" name="username" value="{{ name }}">
+    {% for skill in job_skills %}
+        <input type="hidden" name="skills" value="{{ skill }}">
+    {% endfor %}
+    <button type="submit" class="btn btn-outline-primary mt-3">
+        💼 Generate Interview Questions
+    </button>
+</form>
+
         <div class="action-links mt-4 text-center">
             <a href="{{ url_for('home') }}" class="btn btn-secondary">Analyze Another Resume</a>
             <a href="{{ url_for('logout') }}" class="btn btn-logout">Logout</a>
@@ -79,46 +84,4 @@
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<!-- <script>
-  const skillLabels = {{ skill_data | map(attribute='skill') | list | tojson }};
-  const skillPercentages = {{ skill_data | map(attribute='percentage') | list | tojson }};
-
-  const ctx = document.getElementById('skillsChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: skillLabels,
-      datasets: [{
-        label: 'Matched Skill %',
-        data: skillPercentages,
-        backgroundColor: 'rgba(75, 192, 192, 0.7)',
-        borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1
-      }]
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      plugins: {
-        tooltip: {
-          callbacks: {
-            label: function (context) {
-              return context.parsed.x + '%';
-            }
-          }
-        }
-      },
-      scales: {
-        x: {
-          beginAtZero: true,
-          max: 100,
-          title: {
-            display: true,
-            text: 'Percentage of Job Description'
-          }
-        }
-      }
-    }
-  });
-</script> -->
 {% endblock %}
