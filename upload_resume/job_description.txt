@@ -1,26 +1,9 @@
-As a DevOps engineer at [Company], you will optimize the software development lifecycle from coding and deployment to maintenance and updates.
-DevOps engineer responsibilities
 
-    Implement and manage continuous delivery systems and methodologies on AWS, Azure, or Google Cloud Platform.
-    Design and maintain automated deployment systems.
-    Recommend process improvements to ensure system scalability and reliability.
-    Support development and maintenance of CI/CD processes for application deployments.
-    Manage, monitor, and optimize automation tools for deployment, monitoring, and operations.
-    Troubleshoot and resolve issues in development, testing, and production environments.
+What We Are Looking For
 
-DevOps engineer qualifications
-
-    Bachelor’s degree in Computer Science, Engineering, or related field.
-    Proven experience as a DevOps Engineer or similar software engineering role.
-    Proficient with Git and Git workflows.
-    Working knowledge of databases and SQL.
-    Experience with automation software (e.g., Puppet, Chef, Ansible).
-    Strong problem-solving and teamwork skills.
-
-DevOps engineer skills
-
-    Expertise in code deployment tools (Puppet, Ansible, and Chef).
-    Experience building and maintaining CI/CD pipelines.
-    Strong command of software-automation production systems (Jenkins and Selenium).
-    Expertise in script languages (Shell, Python, Ruby).
-    Excellent organizational and time management skills, and the ability to handle multiple projects.
+    5+ years of experience in applying machine learning in an industrial setting, with a track record of delivering impactful results.
+    PhD or Masters in Computer Science, Statistics, or a related field
+    Expertise in machine learning algorithms and frameworks, with hands-on experience in training, tuning, and deploying models in production environments.
+    Excellent software design and development skills in Python along with Scala, Java, C++, or C#
+    Experience in one or more of the following applied fields: Recommendations, Personalization, Long-term Reward Modeling, Bandits, Transformers, Large-Scale Language Models, LLM evaluation, RLHF reward modeling/alignment
+    Great interpersonal skills including strong written and verbal communication

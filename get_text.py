@@ -5,10 +5,7 @@ import re
 import pytesseract
 from PIL import Image
 import pdfplumber
-import spacy
 
-
-nlp = spacy.load("en_core_web_sm")
 
 
 def pdf_to_text(file):

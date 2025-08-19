@@ -33,7 +33,7 @@ import io
 
 from rag_chat import load_and_embed_pdfs,get_chat_chain
 
-chat_chain = None  # Global for now
+chat_chain = None  
 chat_history = []
 
 load_dotenv()
@@ -543,7 +543,7 @@ def matcher():
     resume_names = []
     resume_records = []
 
-    # Step 1: Save resumes and extract data
+    # Save resumes and extract data
     for resume in resumes:
         filename = secure_filename(resume.filename)
         path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
@@ -579,7 +579,7 @@ def matcher():
 
     db.session.commit()  # Commit all resumes first
 
-    # Step 2: Compute similarity scores
+    # Compute similarity scores
     all_docs = [job_desc] + resume_texts
     vectorizer = TfidfVectorizer().fit_transform(all_docs)
     vectors = vectorizer.toarray()
@@ -590,7 +590,7 @@ def matcher():
 
     top_results = []
 
-    # Step 3: Save similarity scores and prepare results
+    #  Save similarity scores and prepare results
     for i, score in enumerate(similarities):
         match_record = ResumeMatch(
             resume_id=resume_records[i].id,
@@ -602,7 +602,7 @@ def matcher():
 
     db.session.commit()
 
-    # Step 4: Sort results by similarity score
+    # Sort results by similarity score
     top_results.sort(key=lambda x: x[1], reverse=True)
 
     return render_template("matchresume.html", top_results=top_results, show_form=False)

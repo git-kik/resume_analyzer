@@ -64,8 +64,8 @@
       <div class="modal-body">
         <p>Please choose an action:</p>
         {% if user_role == 'jobseeker' %}
-        <a href="{{ url_for('home') }}" class="btn btn-primary btn-block mb-2">🧠 Analyze Single Resume</a>
-        <a href="{{ url_for('portfolio_upload') }}" class="btn btn-secondary btn-block">🌐 Generate Portfolio Website</a>
+        <a href="{{ url_for('home') }}" class="btn btn-primary btn-block mb-2">Analyze Single Resume</a>
+        <a href="{{ url_for('portfolio_upload') }}" class="btn btn-secondary btn-block">Generate Portfolio Website</a>
         {% elif user_role == 'admin' %}
           <a href="{{ url_for('user_admin.index_view') }}" class="btn btn-primary btn-block mb-2">Manage all users</a>
           <a href="{{ url_for('view_resumes') }}" class="btn btn-secondary btn-block">View All Resumes Data</a>
