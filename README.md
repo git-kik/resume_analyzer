@@ -34,7 +34,7 @@ cd resume_analyzer
 pip install -r requirements.txt
 ```
 
-### Run flask app at : ####`localhost:5000`
+### Run flask app at : `localhost:5000`
  ```bash
 python3 main.py
 ```
