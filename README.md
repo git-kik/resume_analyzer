@@ -1,5 +1,7 @@
 # smartRecurit- Resume Screener 
 Automate the resume screening process using ML and NLP to parse key resume contents such as education, experience, and skills & compare with  job descriptions text in a user friendly manner.
+
+Learn more: [Detail-Project-Document](./upload_resume/8th-project.docx)
 ----
 ## Tech Stacks
 - **Python** – Scripting 
@@ -11,7 +13,7 @@ Automate the resume screening process using ML and NLP to parse key resume conte
 ----
 
 ## System Architecture
-![smartRecurit-system-architecture]()
+![smartRecurit-system-architecture](./static/image/8th-sem-system-architecture.drawio(3).png)
 ----
 ## Setup Instruction
 
