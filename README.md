@@ -1,7 +1,7 @@
 # smartRecurit- Resume Screener 
-Automate the resume screening process using ML and NLP to parse key resume contents such as education, experience, and skills & compare with  job descriptions text in a user friendly manner.
+Automate the resume screening process using ML and NLP to parse key resume contents such as education, experience, and skills & compare with  job descriptions text in a user friendly manner. 
+Learn more: [Detail-Project-Document](./upload_resume/8th-project.pdf)
 
-Learn more: [Detail-Project-Document](./upload_resume/8th-project.docx)
 ----
 ## Tech Stacks
 - **Python** – Scripting 
@@ -17,6 +17,7 @@ Learn more: [Detail-Project-Document](./upload_resume/8th-project.docx)
 ----
 ## Setup Instruction
 
+### Pre-requisite
 ```bash
 > python3 -V
   python 3.10.0
@@ -33,7 +34,7 @@ cd resume_analyzer
 pip install -r requirements.txt
 ```
 
-### Run flask app at : `localhost:5000`
+### Run flask app at : ####`localhost:5000`
  ```bash
 python3 main.py
 ```
@@ -42,7 +43,7 @@ python3 main.py
 ## Future Actions
 - Multi-lingual and all resume formats support.
 - Scheduling interviews or managing candidate communication.
-- Final hiring decision-making or full HR management system integration.
+- Proper Deployment & Containeration.
 
 -------
 
